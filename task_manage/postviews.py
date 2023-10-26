@@ -15,7 +15,7 @@ from .serializers import *
 
 
 
-
+#_____________CheckListOption______________________________
 
 
 @api_view(['POST'])
@@ -40,7 +40,7 @@ def deleteCheckListOptionView(request,pk):
     
 
 
-
+#_________________Task CRUD______________________________________
 
 
 @api_view(['POST'])
@@ -160,6 +160,9 @@ def updateTaskView(request, pk):
         return Response({'errors': 'User profile does not exist'})
     except Task.DoesNotExist:
         return Response({'errors': 'Task does not exist'})
+
+
+
 
 
 
@@ -289,18 +292,6 @@ def createNoticeView(request):
     except UserProfile.DoesNotExist:
         return Response({'error': 'User Profile Does Not Exist'})
                 
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

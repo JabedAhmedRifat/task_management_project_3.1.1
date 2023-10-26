@@ -19,12 +19,21 @@ from rest_framework import generics
 
 
 
+
+#_______________________CheckListOption CRUD____________________
+
+
+
+
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
 def allCheckListOptionView(request):
     data = CheckListOption.objects.all().order_by('-id')
     serializer = CheckListSerializer(data, many=True)
     return Response(serializer.data)
+        
+        
+        
         
 
 # ______________________QC Task_____________________________________________
@@ -98,7 +107,7 @@ def deleteQcStatus(request,pk):
 
 
 
-# ______________________Notification_____________________________________________
+# ______________________Notification using signals for that_____________________________________________
 
 
 
@@ -114,7 +123,10 @@ def allNotificationView(request):
     return Response(serializer.data)
 
 
-# ________________________Task___________________________________________
+
+
+
+# ________________________Task CRUD___________________________________________
 
 
 
@@ -185,6 +197,31 @@ def detailTaskView(request, pk):
 
 
 
+
+
+
+@api_view(['DELETE'])
+@authentication_classes([TokenAuthentication])
+def deleteTaskView(request,pk):
+    try:
+        task = Task.objects.get(id=pk)
+    except Task.DoesNotExist:
+        return Response({'error':'Task does not exist'})
+    
+    user= request.user
+    user_profile = UserProfile.objects.get(user=user)
+
+    if user_profile.type in ['superadmin', 'admin']:
+        task.delete()
+        return Response({'message':'Task Deleted Successfully'})
+    else:
+        return Response({'error':'only super admin and admin can delete tasks'})
+    
+
+
+
+
+
 # ____________________________User Detail View_______________________________________________
 
 
@@ -221,24 +258,6 @@ def userDetailView(request, pk):
 
 
 
-
-@api_view(['DELETE'])
-@authentication_classes([TokenAuthentication])
-def deleteTaskView(request,pk):
-    try:
-        task = Task.objects.get(id=pk)
-    except Task.DoesNotExist:
-        return Response({'error':'Task does not exist'})
-    
-    user= request.user
-    user_profile = UserProfile.objects.get(user=user)
-
-    if user_profile.type in ['superadmin', 'admin']:
-        task.delete()
-        return Response({'message':'Task Deleted Successfully'})
-    else:
-        return Response({'error':'only super admin and admin can delete tasks'})
-    
 
 
 
@@ -420,6 +439,9 @@ class searchTaskInQcTask(generics.ListAPIView):
     serializer_class = QCTaskSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['task']
+    
+    
+    
     
     
 class searchQcInQCStatus(generics.ListAPIView):

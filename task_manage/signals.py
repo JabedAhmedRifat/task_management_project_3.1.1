@@ -21,20 +21,5 @@ def create_task_notification(sender, instance, created, **kwargs):
 
 
 
-# # QC user create when register a new user
-# @receiver(post_save, sender=UserProfile)
-# def create_qc_user(sender, instance, created, **kwargs):
-#     if created:
-#         QCUser.objects.create(user=instance)
 
 
-
-
-
-# @receiver(post_save, sender=Task)
-# def create_qc_status(sender, instance, created, **kwargs):
-#     if created:
-#         print("Creating")
-#         # Loop through each QCUser in the qc_check field and create a QCStatus for each
-#         for qc_user in instance.qc_check.all():
-#             QCStatus.objects.create(task=instance, user=qc_user, is_checked=False)
