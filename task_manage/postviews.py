@@ -68,7 +68,9 @@ def createTaskView(request):
 
 
 
-
+# when updating a task super admin and admin can update each things on task
+# member can update 2 fields on task 
+# who are qc can update one fields on task
 
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])
