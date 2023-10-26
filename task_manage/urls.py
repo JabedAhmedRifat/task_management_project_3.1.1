@@ -64,5 +64,5 @@ urlpatterns = [
     
     #filter
     path('search-task/', searchTaskInQcTask.as_view()),
-    path('search-qc/', searchqcInQCStatus.as_view()),
+    path('search-qc/', searchQcInQCStatus.as_view()),
 ]

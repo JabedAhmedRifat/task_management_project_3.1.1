@@ -135,7 +135,10 @@ def allTaskView(request):
             data = Task.objects.filter(assignee=user_profile)
 
         elif QCTask.objects.filter(user=user_profile).exists():
-            data = Task.objects.all().order_by('-id')
+            # Get tasks associated with the user as a QC task
+            qc_tasks = QCTask.objects.filter(user=user_profile)
+            qc_task_ids = qc_tasks.values_list('task_id', flat=True)
+            data = Task.objects.filter(id__in=qc_task_ids).order_by('-id')
 
 
         serializer = TaskSerializer(data, many=True)
@@ -419,7 +422,7 @@ class searchTaskInQcTask(generics.ListAPIView):
     filterset_fields = ['task']
     
     
-class searchqcInQCStatus(generics.ListAPIView):
+class searchQcInQCStatus(generics.ListAPIView):
     queryset = QCStatus.objects.all().order_by('-id')
     serializer_class = QCStatusSerializer
     filter_backends = [DjangoFilterBackend]
