@@ -79,7 +79,7 @@ def updateTaskView(request, pk):
         user_profile = UserProfile.objects.get(user=user)
         task = Task.objects.get(id=pk)
 
-        if user_profile.type in ['superadmin']:
+        if user_profile.type in ['superadmin', 'admin']:
             serializer = TaskSerializer(instance=task, data=data, partial=True)
 
             if serializer.is_valid():
@@ -94,16 +94,16 @@ def updateTaskView(request, pk):
 
 
 
-        elif user_profile.type == 'admin' and task.assigner == user_profile:
-            serializer = TaskSerializer(instance=task, data=data, partial=True)
-            if serializer.is_valid():
-                if 'status' in data and task.status == 'qc_complete' and data['status'] == 'done':
-                    task.assignee.score += task.points
-                    task.assignee.save()
-                serializer.save()
-                return Response(serializer.data)
-            else:
-                return Response(serializer.errors)
+        # elif user_profile.type == 'admin' and task.assigner == user_profile:
+        #     serializer = TaskSerializer(instance=task, data=data, partial=True)
+        #     if serializer.is_valid():
+        #         if 'status' in data and task.status == 'qc_complete' and data['status'] == 'done':
+        #             task.assignee.score += task.points
+        #             task.assignee.save()
+        #         serializer.save()
+        #         return Response(serializer.data)
+        #     else:
+        #         return Response(serializer.errors)
 
 
 
