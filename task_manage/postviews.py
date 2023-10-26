@@ -299,8 +299,6 @@ def createNoticeView(request):
 
 
 
-
-
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])
 def updateNoticeView(request,pk):
@@ -325,6 +323,3 @@ def updateNoticeView(request,pk):
     except UserProfile.DoesNotExist:
         return Response({'error':'User Profile Does not exist'})
     
-    
-
-
