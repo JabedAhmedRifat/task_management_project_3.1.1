@@ -59,4 +59,10 @@ urlpatterns = [
     path('qc-task-create/', createQcTask),
     path('qc-task-update/<int:pk>/', updateQcTask),
     path('qc-task-delete/<int:pk>/', deleteQcTask),
+    
+    
+    
+    #filter
+    path('search-task/', searchTaskInQcTask.as_view()),
+    path('search-qc/', searchqcInQCStatus.as_view()),
 ]

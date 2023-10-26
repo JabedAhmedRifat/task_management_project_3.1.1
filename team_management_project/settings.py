@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'user',
     
     'rest_framework',
+    'django_filters',
     'corsheaders',
     'knox',
 ]
@@ -68,6 +69,7 @@ ROOT_URLCONF = 'team_management_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        # 'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -140,13 +142,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication', ),
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 }
 
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # This is where your static files will be collected to for production.
 
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# Media files (user-uploaded content)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 AUTHENTICATION_BACKENDS = ['team_management_project.backends.EmailBackend']

@@ -13,9 +13,8 @@ from django.db.models import Q
 from .models import *
 from .serializers import *
 
-from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
-
+from rest_framework import generics
 
 
 
@@ -405,3 +404,23 @@ def deleteNoticeView(request, pk):
         return Response({'message':'Notice Deleted Successfully'})
     else:
         return Response({'error':'only Super Admin and admin can delele Notice'})
+    
+    
+    
+    
+    
+    
+# ______________________Filter_____________________
+
+class searchTaskInQcTask(generics.ListAPIView):
+    queryset = QCTask.objects.all().order_by('-id')
+    serializer_class = QCTaskSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['task']
+    
+    
+class searchqcInQCStatus(generics.ListAPIView):
+    queryset = QCStatus.objects.all().order_by('-id')
+    serializer_class = QCStatusSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['qc']
