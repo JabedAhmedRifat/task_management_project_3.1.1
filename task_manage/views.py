@@ -144,13 +144,16 @@ def allTaskView(request):
         elif user_profile.type == 'admin':
             data = Task.objects.all().order_by('-id')
         elif user_profile.type == 'member':
-            data = Task.objects.filter(assignee=user_profile)
+            data = Task.objects.filter(Q(assignee=user_profile) | Q(qctask__user=user_profile))
 
-        elif QCTask.objects.filter(user=user_profile).exists():
-            # Get tasks associated with the user as a QC task
-            qc_tasks = QCTask.objects.filter(user=user_profile)
-            qc_task_ids = qc_tasks.values_list('task_id', flat=True)
-            data = Task.objects.filter(id__in=qc_task_ids).order_by('-id')
+        # elif QCTask.objects.filter(user=user_profile).exists():
+        #     # Get tasks associated with the user as a QC task
+        #     qc_tasks = QCTask.objects.filter(user=user_profile)
+        #     qc_task_ids = qc_tasks.values_list('task_id', flat=True)
+        #     data = Task.objects.filter(id__in=qc_task_ids).order_by('-id')
+            
+        else:
+            return Response({"message": "permission denied"})
 
 
         serializer = TaskSerializer(data, many=True)
@@ -159,6 +162,20 @@ def allTaskView(request):
     except UserProfile.DoesNotExist:
         return Response({'error': 'User Profile does not exist'})
 
+
+# @api_view(["GET"])
+# @authentication_classes([TokenAuthentication])
+# def qcTaskList(request):
+#     user = request.user
+#     user_profile = UserProfile.objects.get(user=user)
+    
+#     # Specify ordering before slicing
+#     data = Task.objects.all().order_by("pk")[:1]
+    
+#     qcTask = QCTask.objects.filter(user=user_profile, task=data.first())
+    
+#     serializer = TaskSerializer(qcTask, many=True)
+#     return Response(serializer.data)
 
 
 
@@ -449,3 +466,13 @@ class searchQcInQCStatus(generics.ListAPIView):
     serializer_class = QCStatusSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['qc']
+    
+    
+    
+    
+class searchUserInQcTask(generics.ListAPIView):
+    queryset = QCTask.objects.all().order_by('-id')
+    serializer_class = QCTaskSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['user']
+    
