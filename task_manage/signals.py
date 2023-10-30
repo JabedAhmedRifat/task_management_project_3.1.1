@@ -16,7 +16,7 @@ def create_task_notification(sender, instance, created, **kwargs):
             print(f"Creating notification for assignee: {instance.assignee}")
             Notification.objects.create(
                 user=instance.assignee,
-                message=f"You have a new Task: {instance.task_name}",
+                message=f"{instance.task_name}",
             )
 
 

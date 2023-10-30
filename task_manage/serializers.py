@@ -75,3 +75,8 @@ class NoticeSerializer(serializers.ModelSerializer):
         fields = '__all__'
      
 
+
+class TaskActivitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TaskActivity
+        fields = '__all__' 

@@ -84,4 +84,9 @@ class Notice(models.Model):
     
     
     
-    
+
+class TaskActivity(models.Model):
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    status = models.CharField(max_length=25)
+    created_at = models.DateTimeField(auto_now_add=True)

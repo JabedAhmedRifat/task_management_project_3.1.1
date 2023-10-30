@@ -82,13 +82,23 @@ def updateTaskView(request, pk):
         task = Task.objects.get(id=pk)
 
         if user_profile.type in ['superadmin', 'admin']:
+            task_copy = Task.objects.get(id=pk)
+            
             serializer = TaskSerializer(instance=task, data=data, partial=True)
 
             if serializer.is_valid():
-                if 'status' in data and task.status == 'qc_complete' and data['status'] == 'done':
-                    task.assignee.score += task.points
-                    task.assignee.save()
+                if 'status' in data:
+                    if  task_copy.status == 'qc_complete' and data['status'] == 'done':
+                        task.assignee.score += task.points
+                        task.assignee.save()
+                
+                    TaskActivity.objects.create(
+                        task=task,
+                        user=user_profile,
+                        status=data.get('status')
+                    )
                 serializer.save()
+                
                 return Response(serializer.data)
             else:
                 return Response(serializer.errors)
@@ -130,6 +140,15 @@ def updateTaskView(request, pk):
             serializer = TaskSerializer(instance=task, data=update_data, partial=True)
             if serializer.is_valid():
                 serializer.save()
+                
+                # if status update by member it will create activity 
+                if 'status' in data:
+                    TaskActivity.objects.create(
+                        task=task,
+                        user=user_profile,
+                        status=data.get('status')
+                    )
+                
                 return Response({"message": "Status updated", "data": serializer.data})
             
             
@@ -138,6 +157,7 @@ def updateTaskView(request, pk):
 
 
         elif QCTask.objects.filter(task=task, user=user_profile).exists():
+            is_qc_task_user = QCTask.objects.filter(task=task, user=user_profile).exists()
             allowed_status = ['inprogress', 'qc_complete', 'qc_progress']
             if 'status' in data:
                 if data['status'] not in allowed_status:
@@ -148,6 +168,12 @@ def updateTaskView(request, pk):
             serializer = TaskSerializer(instance=task, data = update_data, partial=True)
             if serializer.is_valid():
                 serializer.save()
+                if is_qc_task_user and 'status' in data:
+                    TaskActivity.objects.create(
+                        task=task,
+                        user=user_profile,
+                        status=data.get('status')
+                    )
                 return Response({"message": "status update", "data" : serializer.data})
             else:
                 return Response({"message": "qc checker only update status"})
@@ -223,12 +249,20 @@ def updateQcTask(request,pk):
     serializer = QCTaskSerializer(instance=status, data=data, partial=True)
     if serializer.is_valid():
         serializer.save()
+
+        
         return Response(serializer.data)
     
 
+#_______________Task Activity________________________________________________ 
 
 
-
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+def taskActivities(request, pk):
+    activity = TaskActivity.objects.filter(task__id=pk)
+    serializer = TaskActivitySerializer(activity, many=True)
+    return Response(serializer.data)
 
 
 #_______________Task History________________________________________________ 

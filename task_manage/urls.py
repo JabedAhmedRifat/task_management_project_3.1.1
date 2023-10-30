@@ -68,4 +68,7 @@ urlpatterns = [
     path('search-user-for-qc/', searchUserInQcTask.as_view()),
     
     # path('user-task-list/', qcTaskList),
+    
+    
+    path('activity/<int:pk>/', taskActivities),
 ]
