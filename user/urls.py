@@ -10,7 +10,7 @@ urlpatterns= [
     
     path('user-detail/<int:pk>/', detailUsersView),
     
-    
+    path('user-update/<int:pk>/', updateUserView),
     
     path('register/', RegistrationAPI.as_view()),
     path('login/', LoginAPI.as_view()),

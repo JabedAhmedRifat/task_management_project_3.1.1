@@ -168,6 +168,15 @@ def detailUsersView(request, pk):
     return Response(serializer.data)
 
 
+@api_view(['POST'])
+def updateUserView(request, pk):
+    profile = UserProfile.objects.get(id=pk)
+    data = request.data
+    serializer = UserProfileSerializer(instance = profile, data = data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+
 
 
 @api_view(['DELETE'])
