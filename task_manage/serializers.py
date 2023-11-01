@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import *
 import base64
+from django.utils.safestring import mark_safe
 
 
 
@@ -31,7 +32,7 @@ class QCStatusSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-from django.utils.safestring import mark_safe
+
 
 class TaskSerializer(serializers.ModelSerializer):
     # description_base64 = serializers.SerializerMethodField()

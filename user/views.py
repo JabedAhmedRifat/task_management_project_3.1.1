@@ -49,7 +49,12 @@ class RegistrationAPI(generics.GenericAPIView):
                 email=request.data['email'],
                 password=request.data['password'],
             )
-            UserProfile.objects.create(user=user, type=user_type)
+            UserProfile.objects.create(
+                user=user,
+                type=user_type,
+                image=request.data.get('image'),  
+                category=request.data.get('category'),
+            )
 
             return Response({
                 'token': AuthToken.objects.create(user)[1]
