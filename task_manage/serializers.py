@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import *
+import base64
 
 
 
@@ -30,13 +31,28 @@ class QCStatusSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-
-
+from django.utils.safestring import mark_safe
 
 class TaskSerializer(serializers.ModelSerializer):
+    # description_base64 = serializers.SerializerMethodField()
+
     class Meta:
         model = Task
         fields = '__all__'
+
+
+    def get_description(self, obj):
+        # Use mark_safe to mark the HTML content as safe
+        return mark_safe(obj.description)
+
+
+    # def get_description_base64(self, obj):
+    #     # Encode the description field as base64
+    #     if obj.description:
+    #         description_bytes = obj.description.encode("ascii")
+    #         base64_bytes = base64.b64encode(description_bytes)
+    #         return base64_bytes.decode("ascii")
+    #     return None
         
         
 # class TaskDetailSerializer(TaskSerializer):
