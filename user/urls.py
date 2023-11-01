@@ -21,5 +21,4 @@ urlpatterns= [
     path('reset-password/', ResetPasswordAPI.as_view(), name='user-reset-password'),
     path('set-new-password/<str:uid>/<str:token>/', SetNewPasswordAPI.as_view(), name='user-set-new-password'),
     
-
 ]
