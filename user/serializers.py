@@ -17,7 +17,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserProfile
-        fields = ['user', 'type', 'score', 'image', 'category']
+        fields = ['user', 'type', 'score', 'image', 'category','assigned_tasks_count']
 
     def get_user(self, obj):
         user = obj.user

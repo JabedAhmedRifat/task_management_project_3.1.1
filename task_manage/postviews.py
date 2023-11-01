@@ -54,7 +54,11 @@ def createTaskView(request):
         if user_profile.type == 'superadmin' or user_profile.type == 'admin':
             serializer = TaskSerializer(data=data)
             if serializer.is_valid():
-                serializer.save()
+                task = serializer.save()
+
+                # Increment the assigned_tasks_count for the assignee
+                task.assignee.assigned_tasks_count += 1
+                task.assignee.save()
 
 
                 return Response(serializer.data)
