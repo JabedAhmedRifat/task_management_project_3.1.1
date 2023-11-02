@@ -35,7 +35,7 @@ class QCStatusSerializer(serializers.ModelSerializer):
 
 
 class TaskSerializer(serializers.ModelSerializer):
-    description_base64 = serializers.SerializerMethodField()
+    # description_base64 = serializers.SerializerMethodField()
 
     class Meta:
         model = Task
@@ -45,13 +45,13 @@ class TaskSerializer(serializers.ModelSerializer):
     
 
 
-    def get_description_base64(self, obj):
-        # Encode the description field as base64
-        if obj.description:
-            description_bytes = obj.description.encode("ascii")
-            base64_bytes = base64.b64encode(description_bytes)
-            return base64_bytes.decode("ascii")
-        return None
+    # def get_description_base64(self, obj):
+    #     # Encode the description field as base64
+    #     if obj.description:
+    #         description_bytes = obj.description.encode("ascii")
+    #         base64_bytes = base64.b64encode(description_bytes)
+    #         return base64_bytes.decode("ascii")
+    #     return None
         
         
 # class TaskDetailSerializer(TaskSerializer):
