@@ -3,6 +3,11 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
+
+class Target(models.Model):
+    target = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)
     TYPE=[
@@ -16,3 +21,5 @@ class UserProfile(models.Model):
     category = models.CharField(max_length=100, null=True, blank=True)
     
     assigned_tasks_count = models.PositiveIntegerField(default=0)
+    
+    targetpoint = models.ForeignKey(Target, on_delete=models.CASCADE, null=True, blank=True)
