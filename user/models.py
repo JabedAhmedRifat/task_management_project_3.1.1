@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 
 class Target(models.Model):
-    target = models.IntegerField()
+    target = models.IntegerField(default=0, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
 class UserProfile(models.Model):
