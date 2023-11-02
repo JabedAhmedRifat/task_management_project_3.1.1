@@ -1,8 +1,6 @@
 from rest_framework import serializers
 from .models import *
 import base64
-import binascii
-
 
 
 

@@ -192,3 +192,48 @@ def deleteUser(request, pk):
         return Response({'message':'User does not exist'}) 
 
 
+
+
+
+#______________________Target___________________
+
+@api_view(['GET'])
+def listTarget(reqeust):
+    target = Target.objects.all()
+    serializer = TargetSerializer(target, many=True)
+    return Response(serializer.data)
+
+
+
+@api_view(['GET'])
+def detailTarget(reqeust, pk):
+    data = Target.objects.get(id = pk)
+    serializer = TargetSerializer(data)
+    return Response(serializer.data)
+
+
+
+@api_view(['POST'])
+def createTarget(request):
+    data = request.data 
+    serializer = TargetSerializer(data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+
+@api_view(['POST'])
+def updateTarget(request, pk):
+    target = Target.objects.get(id=pk)
+    data = request.data
+    serializer = TargetSerializer(instance=target, data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    
+    
+
+@api_view(['DELETE'])
+def deleteTarget(request,pk):
+    data = Target.objects.get(id=pk)
+    data.delete()
+    return Response({'message' : 'DELETED'})

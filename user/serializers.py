@@ -8,6 +8,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from .models import *
 
 
 
@@ -113,3 +114,10 @@ class SetNewPasswordSerializer(serializers.Serializer):
             pass
         
         return None
+    
+    
+class TargetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Target
+        fields = "__all__"
+    

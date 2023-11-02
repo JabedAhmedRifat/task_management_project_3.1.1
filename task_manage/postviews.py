@@ -361,3 +361,8 @@ def updateNoticeView(request,pk):
     except UserProfile.DoesNotExist:
         return Response({'error':'User Profile Does not exist'})
     
+    
+    
+    
+#__________________Target CRUD_________________
+
