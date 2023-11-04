@@ -24,5 +24,5 @@ class UserProfile(models.Model):
 
 class Target(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
-    target = models.IntegerField(default=0, null=True)
+    target = models.IntegerField(default=0)
     update_at = models.DateTimeField(auto_now=True)
