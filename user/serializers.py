@@ -115,6 +115,8 @@ class SetNewPasswordSerializer(serializers.Serializer):
         
         return None
     
+
+    
     
 class TargetSerializer(serializers.ModelSerializer):
     class Meta:
@@ -123,8 +125,3 @@ class TargetSerializer(serializers.ModelSerializer):
 
 
 
-
-# class TargetUserSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = TargetUser
-#         fields = "__all__"
