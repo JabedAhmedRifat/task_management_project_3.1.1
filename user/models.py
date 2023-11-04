@@ -4,9 +4,6 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 
-class Target(models.Model):
-    target = models.IntegerField(default=0, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)
@@ -22,4 +19,10 @@ class UserProfile(models.Model):
     
     assigned_tasks_count = models.PositiveIntegerField(default=0)
     
-    targetpoint = models.ForeignKey(Target, on_delete=models.CASCADE, null=True, blank=True)
+
+
+
+class Target(models.Model):
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    target = models.IntegerField(default=0, null=True)
+    update_at = models.DateTimeField(auto_now=True)

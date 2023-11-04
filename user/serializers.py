@@ -120,4 +120,11 @@ class TargetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Target
         fields = "__all__"
-    
+
+
+
+
+# class TargetUserSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = TargetUser
+#         fields = "__all__"

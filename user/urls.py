@@ -27,6 +27,11 @@ urlpatterns= [
     path('target-detail/<int:pk>/', detailTarget),
     path('target-update/<int:pk>/', updateTarget),
     path('target-delete/<int:pk>/', deleteTarget),
+    
+    path('target-filter/', searchUserOnTarget.as_view()),
+    
+    
+
 
     
 ]

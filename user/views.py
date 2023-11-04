@@ -18,6 +18,10 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics, permissions
 from .models import UserProfile
 
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import generics
+
+
 
 class RegistrationAPI(generics.GenericAPIView):
     serializer_class = CreateUserSerializer
@@ -225,7 +229,7 @@ def createTarget(request):
 def updateTarget(request, pk):
     target = Target.objects.get(id=pk)
     data = request.data
-    serializer = TargetSerializer(instance=target, data=data)
+    serializer = TargetSerializer(instance=target, data=data, partial = True)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
@@ -237,3 +241,13 @@ def deleteTarget(request,pk):
     data = Target.objects.get(id=pk)
     data.delete()
     return Response({'message' : 'DELETED'})
+
+
+
+
+class searchUserOnTarget(generics.ListAPIView):
+    queryset = Target.objects.all().order_by('-id')
+    serializer_class = TargetSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['user']
+    
