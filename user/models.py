@@ -18,7 +18,7 @@ class UserProfile(models.Model):
     category = models.CharField(max_length=100, null=True, blank=True)
     
     assigned_tasks_count = models.PositiveIntegerField(default=0)
-    
+    assigned_tasks_total = models.PositiveIntegerField(default=0)
 
 
 
