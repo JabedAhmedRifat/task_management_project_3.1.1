@@ -60,6 +60,7 @@ def createTaskView(request):
                 task.assignee.assigned_tasks_count += 1
                 task.assignee.save()
                 
+                # Increment the assigned_tasks_count for the assignee
                 task.assignee.assigned_tasks_total += 1
                 task.assignee.save()
 
