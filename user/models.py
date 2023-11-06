@@ -21,7 +21,6 @@ class UserProfile(models.Model):
     assigned_tasks_total = models.PositiveIntegerField(default=0)
 
 
-
 class Target(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     target = models.IntegerField(default=0)
