@@ -22,6 +22,7 @@ class CheckListOption(models.Model):
 class Task(models.Model):
     task_name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
+    image = models.URLField(null=True, blank=True) 
     task_submit = models.TextField(null=True, blank=True)
     assigner = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='task_assigned')
     assignee = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='assigned_task')
