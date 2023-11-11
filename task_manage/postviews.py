@@ -97,18 +97,22 @@ def updateTaskView(request, pk):
             if serializer.is_valid():
                 if 'status' in data:
                     if  task_copy.status == 'qc_complete' and data['status'] == 'done':
-                        qc_points = 1
+                        qc_percentage = 0.2  # Change this to the desired percentage
+                        # assignee_percentage = 1 - qc_percentage
+
+                        qc_points = int(task.points * qc_percentage)
                         assignee_points = task.points - qc_points
-                        
+
                         user_profile.score += qc_points
                         user_profile.save()
-                        
+
                         task.assignee.score += assignee_points
                         task.assignee.save()
-                        
+
                         qctask_users = QCTask.objects.filter(task=task)
                         for qctask_user in qctask_users:
-                            qctask_user.user.score += qc_points
+                            user_percentage_points = int(task.points * qc_percentage)
+                            qctask_user.user.score += user_percentage_points
                             qctask_user.user.save()
                 
                     TaskActivity.objects.create(
