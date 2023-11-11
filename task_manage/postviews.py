@@ -97,8 +97,19 @@ def updateTaskView(request, pk):
             if serializer.is_valid():
                 if 'status' in data:
                     if  task_copy.status == 'qc_complete' and data['status'] == 'done':
-                        task.assignee.score += task.points
+                        qc_points = 1
+                        assignee_points = task.points - qc_points
+                        
+                        user_profile.score += qc_points
+                        user_profile.save()
+                        
+                        task.assignee.score += assignee_points
                         task.assignee.save()
+                        
+                        qctask_users = QCTask.objects.filter(task=task)
+                        for qctask_user in qctask_users:
+                            qctask_user.user.score += qc_points
+                            qctask_user.user.save()
                 
                     TaskActivity.objects.create(
                         task=task,
@@ -111,22 +122,6 @@ def updateTaskView(request, pk):
             else:
                 return Response(serializer.errors)
             
-
-
-
-        # elif user_profile.type == 'admin' and task.assigner == user_profile:
-        #     serializer = TaskSerializer(instance=task, data=data, partial=True)
-        #     if serializer.is_valid():
-        #         if 'status' in data and task.status == 'qc_complete' and data['status'] == 'done':
-        #             task.assignee.score += task.points
-        #             task.assignee.save()
-        #         serializer.save()
-        #         return Response(serializer.data)
-        #     else:
-        #         return Response(serializer.errors)
-
-
-
 
 
         elif user_profile.type == 'member' and task.assignee == user_profile:
@@ -162,6 +157,9 @@ def updateTaskView(request, pk):
             
             else:
                 return Response({"message": "only Status and Task Submit can be updated by assignee User"})
+
+
+
 
 
         elif QCTask.objects.filter(task=task, user=user_profile).exists():
@@ -366,7 +364,3 @@ def updateNoticeView(request,pk):
         return Response({'error':'User Profile Does not exist'})
     
     
-    
-    
-#__________________Target CRUD_________________
-
