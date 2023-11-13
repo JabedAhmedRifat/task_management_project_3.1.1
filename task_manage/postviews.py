@@ -5,7 +5,7 @@ from knox.auth import TokenAuthentication
 
 from django.contrib.auth.models import User
 from user.models import UserProfile
-
+from datetime import datetime
 
 
 # Create your views here.
@@ -120,6 +120,10 @@ def updateTaskView(request, pk):
                         user=user_profile,
                         status=data.get('status')
                     )
+
+                    task.completion_date = datetime.now()
+                    task.save()
+
                 serializer.save()
                 
                 return Response(serializer.data)

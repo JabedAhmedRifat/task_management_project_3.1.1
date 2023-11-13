@@ -40,6 +40,11 @@ class TaskSerializer(serializers.ModelSerializer):
     # description_base64 = serializers.SerializerMethodField()
     # decoded_description = serializers.SerializerMethodField()
 
+    def is_completed_on_time(self, instance):
+        if instance.status == 'done' and instance.completion_date and instance.completion_date <= instance.due_date:
+            return True
+        return False
+
     class Meta:
         model = Task
         fields = '__all__'

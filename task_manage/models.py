@@ -27,6 +27,7 @@ class Task(models.Model):
     assigner = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='task_assigned')
     assignee = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='assigned_task')
     start_date= models.DateTimeField(auto_now_add=True)
+    completion_date = models.DateTimeField(null=True, blank=True)
     due_date= models.DateTimeField(null=True)
     PRIORITY_CHOICES = [
         ('low', 'low'),
