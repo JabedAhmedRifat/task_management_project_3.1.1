@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from .models import *
 import base64
+from django.utils import timezone
+
 
 
 
@@ -35,21 +37,29 @@ class QCStatusSerializer(serializers.ModelSerializer):
 
 
 
+from django.utils.timezone import is_naive, make_aware
 
 class TaskSerializer(serializers.ModelSerializer):
-    # description_base64 = serializers.SerializerMethodField()
-    # decoded_description = serializers.SerializerMethodField()
+    on_time_completion = serializers.SerializerMethodField()
 
-    def is_completed_on_time(self, instance):
-        if instance.status == 'done' and instance.completion_date and instance.completion_date <= instance.due_date:
-            return True
+    def get_on_time_completion(self, instance):
+        if instance.completion_date and instance.due_date:
+            completion_date = instance.completion_date
+            due_date = instance.due_date
+
+            if is_naive(completion_date):
+                completion_date = make_aware(completion_date)
+
+            if is_naive(due_date):
+                due_date = make_aware(due_date)
+
+            return completion_date <= due_date
+
         return False
 
     class Meta:
         model = Task
         fields = '__all__'
-
-
     
 
 

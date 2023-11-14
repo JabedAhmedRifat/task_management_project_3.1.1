@@ -121,9 +121,13 @@ def updateTaskView(request, pk):
                         status=data.get('status')
                     )
 
-                    task.completion_date = datetime.now()
-                    task.save()
-
+                    if data['status'] == 'done':
+                        task.completion_date = datetime.now()
+                    else:
+                        task.completion_date = None
+                    
+                    
+                task.save()
                 serializer.save()
                 
                 return Response(serializer.data)

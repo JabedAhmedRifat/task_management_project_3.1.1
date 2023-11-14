@@ -29,6 +29,7 @@ class Task(models.Model):
     start_date= models.DateTimeField(auto_now_add=True)
     completion_date = models.DateTimeField(null=True, blank=True)
     due_date= models.DateTimeField(null=True)
+    on_time_completion = models.BooleanField(default=False)
     PRIORITY_CHOICES = [
         ('low', 'low'),
         ('medium', 'medium'),
@@ -47,6 +48,7 @@ class Task(models.Model):
     
     status = models.CharField(max_length=25, choices=STATUS_CHOICES, default='todo')
     points= models.IntegerField(default=0)
+    
     
     
     
