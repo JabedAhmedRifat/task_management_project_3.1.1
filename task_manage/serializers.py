@@ -87,28 +87,7 @@ class TaskSerializer(serializers.ModelSerializer):
         
         
         
-# class TaskDetailSerializer(TaskSerializer):
-#     pairs = serializers.SerializerMethodField()
 
-#     class Meta:
-#         model = Task
-#         fields = TaskSerializer.Meta.fields
-
-#     def get_pairs(self, obj):
-#         pairs = []
-#         for checklist_option, qc_check in zip(obj.checklist_options.all(), obj.qc_check.all()):
-#             pair = {
-#                 "checklist_id": checklist_option.id,
-#                 "qc_check_id": qc_check.id
-#             }
-#             pairs.append(pair)
-#         return pairs
-
-
-
-
-#
-        
         
 
 class TaskHistorySerializer(serializers.ModelSerializer):
