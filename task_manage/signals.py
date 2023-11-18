@@ -23,3 +23,10 @@ def create_task_notification(sender, instance, created, **kwargs):
 
 
 
+@receiver(post_save, sender=Task)
+def create_task_history(sender, instance, created, **kwargs):
+    """
+    Signal handler to create TaskHistory when a Task is created.
+    """
+    if created:
+        TaskHistory.objects.create(task=instance, user=instance.assigner)
