@@ -7,4 +7,4 @@ class TaskManageConfig(AppConfig):
 
 
     def ready(self):
-        import task_manage.signals
+        import task_manage.signals 

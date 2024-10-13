@@ -19,7 +19,7 @@ class CheckListSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-
+ 
 
 class QCTaskSerializer(serializers.ModelSerializer):
     class Meta:
